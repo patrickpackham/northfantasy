@@ -1,0 +1,38 @@
+<!-- NAVBAR START -->
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg bg-light shadow-sm px-1">
+    <div class="container px-3">
+        <div class="">
+      <span class="navbar-brand fs-4 d-block">
+        <i class="bi bi-trophy-fill me-2"></i>
+        <span>North's <span class="text-danger">Fantasy</span></span>
+      </span>
+        </div>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav w-100 d-flex justify-content-between">
+                <div class="d-lg-flex align-items-center">
+                    <li class="nav-item text-nowrap px-3">
+                        <a class="nav-link" href="{% url 'league-home' 0 %}">
+                            League Home </a>
+                    </li>
+                    <li class="nav-item text-nowrap px-3">
+                        <a class="nav-link" href="{% url 'rounds' 0 %}">
+                            Rounds </a>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- NAVBAR END -->

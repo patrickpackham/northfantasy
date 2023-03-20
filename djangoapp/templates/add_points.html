@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<form method="post">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    Please select each player that {{ rule }}
+    <table>
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Position</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in form %}
+            <tr>
+                <td>{{ form.player }}</td>
+                <td>{{ form.position }}</td>
+                {{ form.as_hidden }}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <input type="submit" value="Save">
+</form>
+{% endblock %}

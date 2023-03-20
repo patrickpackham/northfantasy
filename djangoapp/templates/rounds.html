@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="row mt-3 mb-3">
+        <div class="text-center col-12">
+            <h3>Season Scores</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="text-center col-12">
+            <div class="d-flex text-centre justify-content-between">
+                <div class="bg-white shadow-sm w-100">
+                    <div class="table-responsive p-0 w-100"
+                         style="max-height: 800px">
+                        <table class="text-center table m-0 w-100">
+                            <thead>
+                            <tr class="border-muted border-bottom">
+                                <th class="fw-normal text-muted small border-0"
+                                    scope="col">Number
+                                </th>
+                                <th class="fw-normal text-muted small border-0"
+                                    scope="col">Played
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><a href="{% url 'round-detail' 1 %}">Round One</a></td>
+                                <td>
+                                    <i class="bi bi-check text-success display-6"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="">Round Two</a></td>
+                                <td>
+                                    <i class="bi bi-check text-success display-6"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="">Round Three</a></td>
+                                <td>
+                                    <i class="bi bi-check text-success display-6"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="">Round Four</a></td>
+                                <td>
+                                    <i class="bi bi-check text-success display-6"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="">Round Five</a></td>
+                                <td>
+                                    <i class="bi bi-x text-danger display-6"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="">Round Six</a></td>
+                                <td>
+                                    <i class="bi bi-x text-danger display-6"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="">Round Seven</a></td>
+                                <td>
+                                    <i class="bi bi-x text-danger display-6"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="">Round Eight</a></td>
+                                <td>
+                                    <i class="bi bi-x text-danger display-6"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="">Round Nine</a></td>
+                                <td>
+                                    <i class="bi bi-x text-danger display-6"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="">Round Ten</a></td>
+                                <td>
+                                    <i class="bi bi-x text-danger display-6"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="">Round Eleven</a></td>
+                                <td>
+                                    <i class="bi bi-x text-danger display-6"></i>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
