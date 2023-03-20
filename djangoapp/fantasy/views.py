@@ -2,25 +2,38 @@ from django.views.generic import TemplateView, FormView, ListView
 from django.urls import reverse
 
 from .forms import  PlayerPointsFormSet
-from .models import Player, Round, LeagueRule
+from .models import League, Player, Round, LeagueRule
 
 
 class LeagueHome(ListView):
     template_name = 'league_home.html'
     model = Player
 
+    def get_context_data(self):
+        context = super(LeagueHome, self).get_context_data()
+        context['league'] = League.objects.get(
+            name__icontains=self.kwargs['league_name'])
+        return context
+
     def get_queryset(self):
         return sorted(Player.objects.filter(
-            league__name=self.kwargs['league_name']
-        ), key= lambda a: a.points)
+            league__name__icontains=self.kwargs['league_name']
+        ), key= lambda a: a.points(), reverse=True)
 
 
 class Rounds(ListView):
     template_name = 'rounds.html'
     model = Round
 
+    def get_context_data(self):
+        context = super(Rounds, self).get_context_data()
+        context['league'] = League.objects.get(
+            name__icontains=self.kwargs['league_name'])
+        return context
+
     def get_queryset(self):
-        return Round.objects.filter(league_name=self.kwargs['league_name'])
+        return Round.objects.filter(
+            league__name__icontains=self.kwargs['league_name'])
 
 
 class RoundDetail(ListView):
@@ -28,16 +41,34 @@ class RoundDetail(ListView):
     model = Player
 
     def get_queryset(self):
-        pass
+        round = Round.objects.get(
+            league__name__icontains=self.kwargs['league_name'],
+            number=self.kwargs['round_number']
+        )
+        qs =  sorted(Player.objects.filter(
+            league__name__icontains=self.kwargs['league_name']
+        ), key= lambda a: a.points(round=round), reverse=True)
+        for player in qs:
+            pass
+        return qs
+
+class PlayerPositionView(FormView):
+    template_name = 'add_positions.html'
+
+    def get_form(self):
+        round = Round.objects.get(
+            league__name__icontains=self.kwargs['league_name'],
+            number=self.kwargs['round_number']
+        )
+        players = Player.objects.get(id=)
 
 
 class PlayerPointsView(FormView):
     template_name = 'add_points.html'
     success_url = '/success/'
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(PlayerPointsView, self).get_context_data(*args, **kwargs)
-        import pdb; pdb.set_trace()
+    def get_context_data(self):
+        context = super(PlayerPointsView, self).get_context_data()
         context['rule'] = LeagueRule.objects.get(
             number=self.kwargs['rule_number'],
             league__name__icontains=self.kwargs['league_name']
@@ -89,4 +120,4 @@ class PlayerPointsView(FormView):
         )
 
 
-class AddPositionsView(FormView):
+# class AddPositionsView(FormView):

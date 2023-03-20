@@ -1,1 +1,21 @@
-.test {color: red;}
+.btn {
+  background-color: #8B2524;
+  color: #fff;
+}
+
+.logo {
+  height: 50px;
+}
+
+.navbar-toggler {
+  border: 0 !important;
+}
+
+h5 {
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
+td {
+    padding: 15px 0 !important;
+}

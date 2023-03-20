@@ -13,7 +13,7 @@ class PlayerPositionForm(ModelForm):
 class PlayerPointsForm(ModelForm):
     class Meta:
         model = PlayerPoints
-        fields = ['round', 'player', 'position', 'rule', 'points']
+        fields = ['player', 'round', 'rule', 'points']
 
     def __init__(self, *args, **kwargs):
         league = League.objects.get(name__icontains=kwargs.pop('league'))
@@ -47,3 +47,4 @@ class PlayerPointsForm(ModelForm):
 
 
 PlayerPointsFormSet = formset_factory(PlayerPointsForm, extra=2)
+PlayerPositinoFormSet = formset_factory(PlayerPositionForm)

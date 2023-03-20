@@ -4,11 +4,11 @@
 {% block body %}
     <div class="row mt-3 mb-3">
         <div class="text-center col-12">
-            <h3>Season Scores</h3>
+            <h5>Season Scores - {{ league }}</h5>
         </div>
     </div>
-    <div class="row">
-        <div class="text-center col-12">
+     <div class="row d-flex justify-content-center">
+        <div class="col-11">
             <div class="d-flex text-centre justify-content-between">
                 <div class="bg-white shadow-sm w-100">
                     <div class="table-responsive p-0 w-100"
@@ -25,72 +25,14 @@
                             </tr>
                             </thead>
                             <tbody>
+                            {% for round in object_list %}
                             <tr>
-                                <td><a href="{% url 'round-detail' 1 %}">Round One</a></td>
+                                <td><a href="{% url 'round-detail' league.name round.number %}">Round {{ round.number }}</a></td>
                                 <td>
                                     <i class="bi bi-check text-success display-6"></i>
                                 </td>
                             </tr>
-                            <tr>
-                                <td><a href="">Round Two</a></td>
-                                <td>
-                                    <i class="bi bi-check text-success display-6"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="">Round Three</a></td>
-                                <td>
-                                    <i class="bi bi-check text-success display-6"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="">Round Four</a></td>
-                                <td>
-                                    <i class="bi bi-check text-success display-6"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="">Round Five</a></td>
-                                <td>
-                                    <i class="bi bi-x text-danger display-6"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="">Round Six</a></td>
-                                <td>
-                                    <i class="bi bi-x text-danger display-6"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="">Round Seven</a></td>
-                                <td>
-                                    <i class="bi bi-x text-danger display-6"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="">Round Eight</a></td>
-                                <td>
-                                    <i class="bi bi-x text-danger display-6"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="">Round Nine</a></td>
-                                <td>
-                                    <i class="bi bi-x text-danger display-6"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="">Round Ten</a></td>
-                                <td>
-                                    <i class="bi bi-x text-danger display-6"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="">Round Eleven</a></td>
-                                <td>
-                                    <i class="bi bi-x text-danger display-6"></i>
-                                </td>
-                            </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>

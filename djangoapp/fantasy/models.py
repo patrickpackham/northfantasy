@@ -9,33 +9,43 @@ POSITION_CHOICES = [("Keeper", "Keeper"),
 class League(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Player(models.Model):
     name = models.CharField(max_length=255)
-    league = models.ForeignKey('League', on_delete=models.CASCADE, unique=True)
+    league = models.ForeignKey('League', on_delete=models.CASCADE)
 
-    @property
-    def points(self):
+    def __str__(self):
+        return self.name
+
+    def points(self, round=None):
         points = self.playerpoints_set.all()
-        return points.aggregate(models.Sum('points'))['points__sum']
+        if round:
+            points = points.filter(round=round)
+        points = points.aggregate(models.Sum('points'))['points__sum']
+        return points if points else 0
 
-    @property
-    def goals(self):
+    def goals(self, round=None):
         goal_points = self.playerpoints_set.filter(
             rule__title__icontains='goals')
+        if round:
+            goal_points = goal_points.filter(round=round)
         return goal_points.count()
 
-    @property
-    def assists(self):
+    def assists(self, round=None):
         assist_points = self.playerpoints_set.filter(
-            rule__title__icontains='assist'
-        )
+            rule__title__icontains='assist')
+        if round:
+            assist_points = assist_points.filter(round=round)
         return assist_points.count()
 
 
 class Round(models.Model):
     number = models.IntegerField()
     league = models.ForeignKey('League', on_delete=models.CASCADE)
+    played = models.BooleanField(default=False)
 
 
 class LeagueRule(models.Model):
@@ -53,11 +63,15 @@ class LeagueRule(models.Model):
 
 class PlayerPoints(models.Model):
     rule = models.ForeignKey('LeagueRule', on_delete=models.CASCADE)
-    player_position = models.CharField(max_length=64, choices=POSITION_CHOICES)
+    player = models.ForeignKey('Player', on_delete=models.CASCADE)
+    round = models.ForeignKey('Round', on_delete=models.CASCADE)
     points = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = "Player points"
 
 
 class PlayerRoundPosition(models.Model):
     player = models.ForeignKey('Player', on_delete=models.CASCADE)
-    round = models.ForeignKey('Round', on_deete=models.CASCADE)
-    position = models.ChoiceField(choices=POSITION_CHOICES)
+    round = models.ForeignKey('Round', on_delete=models.CASCADE)
+    position = models.CharField(max_length=256, choices=POSITION_CHOICES)

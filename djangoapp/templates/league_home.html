@@ -4,11 +4,11 @@
 {% block body %}
     <div class="row mt-3 mb-3">
         <div class="text-center col-12">
-            <h3>Season Total</h3>
+            <h5>Season Total - {{ league }}</h5>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12">
+     <div class="row d-flex justify-content-center">
+        <div class="col-11">
             <div class="d-flex text-centre justify-content-between">
                 <div class="bg-white shadow-sm w-100">
                     <div class="table-responsive p-0 w-100"
@@ -23,7 +23,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for player in players %}
+                            {% for player in object_list %}
                             <tr>
                                 <td>{{ player }}</td>
                                 <td>{{ player.goals }}</td>
