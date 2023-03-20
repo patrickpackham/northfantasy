@@ -1,8 +1,11 @@
 from django.views.generic import TemplateView, FormView, ListView
 from django.urls import reverse
 
-from .forms import  PlayerPointsFormSet
+from .forms import  PlayerPointsFormSet, PlayerPositionsFormSet
 from .models import League, Player, Round, LeagueRule
+
+# todo Make a an object that assigns self.league, round, etc base don what's
+# todo available in the kwargs. Make each of the below clases use this mixin.
 
 
 class LeagueHome(ListView):
@@ -52,7 +55,8 @@ class RoundDetail(ListView):
             pass
         return qs
 
-class PlayerPositionView(FormView):
+
+class PlayerPositionsView(FormView):
     template_name = 'add_positions.html'
 
     def get_form(self):
@@ -60,8 +64,21 @@ class PlayerPositionView(FormView):
             league__name__icontains=self.kwargs['league_name'],
             number=self.kwargs['round_number']
         )
-        players = Player.objects.get(id=)
+        league = League.objects.get(name__icontains=self.kwargs['league_name'])
+        players = Player.objects.filter(league=league)
+        initial = []
+        for player in players:
+            initial.append({
+                'player': player,
+                'position': player.default_position,
+                'round': round
+            })
+        return PlayerPositionsFormSet(initial=initial)
 
+    def form_invalid(self, form):
+        print(form.errors)
+        import pdb; pdb.set_trace()
+        return super(PlayerPositionsView, self).form_invalid(form)
 
 class PlayerPointsView(FormView):
     template_name = 'add_points.html'

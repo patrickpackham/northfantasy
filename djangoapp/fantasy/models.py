@@ -16,6 +16,8 @@ class League(models.Model):
 class Player(models.Model):
     name = models.CharField(max_length=255)
     league = models.ForeignKey('League', on_delete=models.CASCADE)
+    default_position = models.CharField(max_length=255,
+                                        choices=POSITION_CHOICES)
 
     def __str__(self):
         return self.name

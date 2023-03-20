@@ -47,4 +47,4 @@ class PlayerPointsForm(ModelForm):
 
 
 PlayerPointsFormSet = formset_factory(PlayerPointsForm, extra=2)
-PlayerPositinoFormSet = formset_factory(PlayerPositionForm)
+PlayerPositionsFormSet = formset_factory(PlayerPositionForm, extra=0)

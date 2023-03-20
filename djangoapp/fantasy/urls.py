@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 
-from .views import LeagueHome, Rounds, RoundDetail, PlayerPointsView
+from .views import LeagueHome, Rounds, RoundDetail, PlayerPointsView,\
+    PlayerPositionsView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +26,8 @@ urlpatterns = [
     path('league/<str:league_name>/rounds', Rounds.as_view(), name='rounds'),
     path('league/<str:league_name>/round/<int:round_number>',
          RoundDetail.as_view(), name='round-detail'),
+    path('league/<str:league_name>/round/<int:round_number>/add-positions/',
+         PlayerPositionsView.as_view(), name='add_positions'),
     path('league/<str:league_name>/round/<int:round_number>/add-points/<int:rule_number>/',
          PlayerPointsView.as_view(), name='add_points'),
 ]
