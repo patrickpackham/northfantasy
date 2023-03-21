@@ -11,6 +11,11 @@
   border: 0 !important;
 }
 
+.white-container {
+    border-radius: 8px;
+    border: 1px solid lightgrey;
+}
+
 h5 {
     margin-left: 15px;
     margin-top: 5px;

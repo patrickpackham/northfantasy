@@ -58,8 +58,17 @@ class RoundDetail(ListView):
 
 class PlayerPositionsView(FormView):
     template_name = 'add_positions.html'
+    form_class = PlayerPositionsFormSet
 
-    def get_form(self):
+    def get_success_url(self):
+        kwargs = self.kwargs
+        kwargs['round_number'] = 1
+        kwargs['rule_number'] = 1
+        return reverse('add_points', kwargs=kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        print(kwargs)
         round = Round.objects.get(
             league__name__icontains=self.kwargs['league_name'],
             number=self.kwargs['round_number']
@@ -73,12 +82,14 @@ class PlayerPositionsView(FormView):
                 'position': player.default_position,
                 'round': round
             })
-        return PlayerPositionsFormSet(initial=initial)
+        kwargs['initial'] = initial
+        return kwargs
+    
+    def form_valid(self, form):
+        for subform in form:
+            subform.save()
+        return super(PlayerPositionsView, self).form_valid(form)
 
-    def form_invalid(self, form):
-        print(form.errors)
-        import pdb; pdb.set_trace()
-        return super(PlayerPositionsView, self).form_invalid(form)
 
 class PlayerPointsView(FormView):
     template_name = 'add_points.html'

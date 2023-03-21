@@ -1,5 +1,5 @@
 from django.forms import formset_factory, ModelForm, ValidationError, \
-    ModelChoiceField, IntegerField
+    ModelChoiceField, IntegerField, HiddenInput
 from .models import PlayerPoints, Round, Player, LeagueRule, League,\
     PlayerRoundPosition
 
@@ -8,6 +8,7 @@ class PlayerPositionForm(ModelForm):
     class Meta:
         model = PlayerRoundPosition
         fields = ['round', 'player', 'position']
+        widgets = {'round': HiddenInput()}
 
 
 class PlayerPointsForm(ModelForm):

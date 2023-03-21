@@ -4,7 +4,7 @@
 {% block body %}
 <form method="post">
     {% csrf_token %}
-    {{ formset.management_form }}
+    {{ form.management_form }}
     Please confirm each player's position.
     <table>
         <thead>
@@ -15,10 +15,10 @@
         </thead>
         <tbody>
             {% for form in form %}
+            {{ form.round }}
             <tr>
                 <td>{{ form.player }}</td>
                 <td>{{ form.position }}</td>
-                {{ form.as_hidden }}
             </tr>
             {% endfor %}
         </tbody>
