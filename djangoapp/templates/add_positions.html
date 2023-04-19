@@ -2,27 +2,48 @@
 {% load static %}
 
 {% block body %}
-<form method="post">
-    {% csrf_token %}
-    {{ form.management_form }}
-    Please confirm each player's position.
-    <table>
-        <thead>
-            <tr>
-                <th>Player</th>
-                <th>Position</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for form in form %}
-            {{ form.round }}
-            <tr>
-                <td>{{ form.player }}</td>
-                <td>{{ form.position }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <input type="submit" value="Save">
-</form>
+    <div class="mt-4 mb-4 m-2 d-flex text-centre">
+        <span>Please confirm each player's position for round {{ round }}.</span>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="w-100 d-flex text-centre justify-content-between">
+            <div class="bg-white shadow-sm w-100 white-container">
+                <div class="table-responsive p-0 w-100"
+                     style="max-height: 800px">
+                    <form method="post">
+                        {{ form.management_form }}
+                        {% csrf_token %}
+                        <table class="text-center table m-0 w-100 no-dividers">
+                            <thead>
+                            <tr class="border-muted border-bottom">
+                                <th class="fw-normal text-muted small border-0"
+                                    scope="col">Player
+                                </th>
+                                <th class="fw-normal text-muted small border-0"
+                                    scope="col">Position
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for form in form %}
+                                {{ form.round }}
+                                {{ form.id }}
+                                <tr>
+                                    <td>{{ form.player }}</td>
+                                    <td>{{ form.position }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-center mb-4 mt-4">
+                            <input
+                                    type="submit"
+                                    class="w-100 btn btn-danger ml-15p mr-15p"
+                                    value="Save">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

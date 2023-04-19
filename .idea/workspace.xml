@@ -10,6 +10,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -29,6 +37,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/djangoapp/fantasy" />
       <recent name="$PROJECT_DIR$/djangoapp/static/images" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/compose" />
@@ -43,7 +52,20 @@
       <option name="presentableId" value="Default" />
       <updated>1679285393203</updated>
       <workItem from="1679285394516" duration="3587000" />
-      <workItem from="1679312399219" duration="9425000" />
+      <workItem from="1679312399219" duration="11255000" />
+      <workItem from="1679360906368" duration="5290000" />
+      <workItem from="1679378696447" duration="85000" />
+      <workItem from="1679486466356" duration="1983000" />
+      <workItem from="1679547952250" duration="1360000" />
+      <workItem from="1679621554470" duration="4579000" />
+      <workItem from="1680223291427" duration="951000" />
+      <workItem from="1680584614769" duration="1021000" />
+      <workItem from="1680738176082" duration="3041000" />
+      <workItem from="1680757006277" duration="2255000" />
+      <workItem from="1681444654245" duration="2518000" />
+      <workItem from="1681700894082" duration="8448000" />
+      <workItem from="1681712832705" duration="10206000" />
+      <workItem from="1681780861502" duration="34454000" />
     </task>
     <servers />
   </component>

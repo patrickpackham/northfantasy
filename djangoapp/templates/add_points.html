@@ -2,27 +2,72 @@
 {% load static %}
 
 {% block body %}
-<form method="post">
-    {% csrf_token %}
-    {{ formset.management_form }}
-    Please select each player that {{ rule }}
-    <table>
-        <thead>
-            <tr>
-                <th>Player</th>
-                <th>Position</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for form in form %}
-            <tr>
-                <td>{{ form.player }}</td>
-                <td>{{ form.position }}</td>
-                {{ form.as_hidden }}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <input type="submit" value="Save">
-</form>
+    <div class="mt-4 mb-4 m-2 d-flex text-centre">
+        <span>Please select each player that {{ rule }}.</span>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="w-100 d-flex text-centre justify-content-between">
+            <div class="bg-white shadow-sm w-100 white-container">
+                <div class="table-responsive p-0 w-100"
+                     style="max-height: 800px">
+                    <form id="player-points-form" method="post">
+                        {% csrf_token %}
+                        {{ form.management_form }}
+                        <table class="table m-0 w-100 no-dividers">
+                            <thead>
+                            <tr class="border-muted border-bottom">
+                                <th class="ml-15p fw-normal text-muted small border-0"
+                                    scope="col">Player
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+                        {% for subform in form %}
+                            {% for field in subform %}
+                                {{ field }}
+                            {% endfor %}
+                        {% endfor %}
+                        <div id="insert-here" class="d-flex justify-content-center mb-4 mt-4 ml-15p mr-15p">
+                            <button id="add-form" class="btn btn-danger"
+                                    type="button">Add Another Player
+                            </button>
+                        </div>
+
+                        <div class="d-flex justify-content-center mb-4 mt-4 ml-15p mr-15p">
+                            <input
+                                    type="submit"
+                                    class="w-100 btn btn-danger ml-15p mr-15p"
+                                    value="Save">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="empty-form" class="d-none">
+        {% for field in form.empty_form %}
+            {{ field }}
+        {% endfor %}
+    </div>
+    <script type="text/javascript">
+        let playerForm = document.querySelectorAll(".bird-form")
+        let emptyForm = document.querySelectorAll("#empty-form")
+        let container = document.querySelector("#player-points-form")
+        let addButton = document.querySelector("#add-form")
+        let insertHere = document.querySelector("#insert-here")
+        let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+        let formNum = totalForms.value - 1;
+        addButton.addEventListener('click', addForm)
+
+        function addForm(e){
+            e.preventDefault()
+            let newForm = emptyForm[0].cloneNode(true)
+            formNum++
+            let regex = new RegExp('__prefix__', 'g');
+            newForm.innerHTML = newForm.innerHTML.replace(regex, formNum)
+            newForm.classList.remove("d-none");
+            container.insertBefore(newForm, insertHere)
+            totalForms.setAttribute('value', `${formNum+1}`)
+        }
+    </script>
 {% endblock %}

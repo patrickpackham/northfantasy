@@ -22,14 +22,28 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav w-100 d-flex justify-content-between">
                 <div class="d-lg-flex align-items-center">
+                    {% if not request.user.is_authenticated %}
                     <li class="nav-item text-nowrap px-3">
-                        <a class="nav-link" href="{% url 'league-home' 0 %}">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            Login </a>
+                    </li>
+                    {% endif %}
+                    {% if league %}
+                    <li class="nav-item text-nowrap px-3">
+                        <a class="nav-link" href="{% url 'league_home' league.name %}">
                             League Home </a>
                     </li>
                     <li class="nav-item text-nowrap px-3">
-                        <a class="nav-link" href="{% url 'rounds' 0 %}">
+                        <a class="nav-link" href="{% url 'rounds' league.name %}">
                             Rounds </a>
                     </li>
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item text-nowrap px-3">
+                        <a class="nav-link" href="{% url 'logout' %}">
+                            Logout </a>
+                    </li>
+                    {% endif %}
                 </div>
             </ul>
         </div>

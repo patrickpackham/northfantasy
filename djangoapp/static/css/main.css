@@ -1,6 +1,8 @@
 .btn {
   background-color: #8B2524;
   color: #fff;
+  border-radius: 0;
+  border: 0;
 }
 
 .logo {
@@ -11,16 +13,53 @@
   border: 0 !important;
 }
 
+.mt-5p {
+    margin-top: 5px;
+}
+
+.mr-15p {
+    margin-right: 15px;
+}
+
+.ml-15p {
+    margin-left: 15px;
+}
+
+.no-dividers td {
+  border: 0;
+}
+
+.p-20p {
+  padding: 0 20px;
+}
+
 .white-container {
-    border-radius: 8px;
-    border: 1px solid lightgrey;
+  border-top: 1px solid lightgrey;
+  border-bottom: 1px solid lightgrey;
+}
+
+.form-control {
+  width: 80%;
+  border-radius: 0;
+}
+
+select {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button {
+  font-size: 12px !important;
+  min-width: 100px;
 }
 
 h5 {
-    margin-left: 15px;
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 td {
     padding: 15px 0 !important;
+    line-height: 35px;
+    height: 35px;
+    text-align: center;
 }

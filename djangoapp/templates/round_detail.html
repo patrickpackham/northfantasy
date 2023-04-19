@@ -2,41 +2,60 @@
 {% load static %}
 
 {% block body %}
-    <div class="row mt-3 mb-3">
-        <div class="col-6 d-flex justify-content-start">
+    {% if messages %}
+    <div class="m-2 d-flex">
+        {% for message in messages %}
+            <div class="text-centre w-100 alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="{% if not messages %}mt-4{% endif %} mb-4 m-2 d-flex text-centre">
+        <div class="w-50 d-flex justify-content-start mr-15p">
             <h5>Round 1 Scores</h5>
         </div>
-        <div class="col-5 d-flex justify-content-end">
-            <button class="right btn">Edit Scores</button>
+        {% if league.admin == request.user %}
+        <div class="w-50 d-flex justify-content-end ml-15p">
+            <a href="{% url 'add_positions' league round %}">
+                <button class="mt-5p right btn">Edit Scores</button>
+            </a>
         </div>
+        {% endif %}
     </div>
-    <div class="row d-flex justify-content-center">
-        <div class="col-11">
-            <div class="d-flex text-centre justify-content-between">
-                <div class="bg-white shadow-sm w-100 white-container">
-                    <div class="table-responsive p-0 w-100"
-                         style="max-height: 800px">
-                        <table class="text-center table m-0 w-100">
-                            <thead>
-                            <tr class="border-muted border-bottom">
-                                <th class="fw-normal text-muted small border-0" scope="col">Player</th>
-                                <th class="fw-normal text-muted small border-0" scope="col">Goals</th>
-                                <th class="fw-normal text-muted small border-0" scope="col">Assists</th>
-                                <th class="fw-normal text-muted small border-0" scope="col">Points</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for player in object_list %}
+    <div class="d-flex justify-content-center">
+        <div class="w-100 d-flex text-centre justify-content-between">
+            <div class="bg-white shadow-sm w-100 white-container">
+                <div class="table-responsive p-0 w-100"
+                     style="max-height: 800px">
+                    <table class="text-center table m-0 w-100">
+                        <thead>
+                        <tr class="border-muted border-bottom">
+                            <th class="fw-normal text-muted small border-0"
+                                scope="col">Player
+                            </th>
+                            <th class="fw-normal text-muted small border-0"
+                                scope="col">Goals
+                            </th>
+                            <th class="fw-normal text-muted small border-0"
+                                scope="col">Assists
+                            </th>
+                            <th class="fw-normal text-muted small border-0"
+                                scope="col">Points
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for player in object_list %}
                             <tr>
                                 <td>{{ player.name }}</td>
                                 <td>{{ player.goals }}</td>
                                 <td>{{ player.assists }}</td>
                                 <td>{{ player.points }}</td>
                             </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

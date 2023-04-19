@@ -38,10 +38,12 @@ INSTALLED_APPS = [
 
 # Custom apps
 INSTALLED_APPS += [
+    'debug_toolbar',
     'djangoapp.fantasy'
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -101,6 +103,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+LOGIN_REDIRECT_URL = '/league/Fraturday'
 
 
 # Static files (CSS, JavaScript, Images)

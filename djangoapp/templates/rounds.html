@@ -2,40 +2,38 @@
 {% load static %}
 
 {% block body %}
-    <div class="row mt-3 mb-3">
-        <div class="text-center col-12">
-            <h5>Season Scores - {{ league }}</h5>
-        </div>
+    <div class="mt-4 mb-4 m-2 d-flex text-centre">
+        <h5>{{ league }} Rounds</h5>
     </div>
-     <div class="row d-flex justify-content-center">
-        <div class="col-11">
-            <div class="d-flex text-centre justify-content-between">
-                <div class="bg-white shadow-sm w-100 white-container">
-                    <div class="table-responsive p-0 w-100"
-                         style="max-height: 800px">
-                        <table class="text-center table m-0 w-100">
-                            <thead>
-                            <tr class="border-muted border-bottom">
-                                <th class="fw-normal text-muted small border-0"
-                                    scope="col">Number
-                                </th>
-                                <th class="fw-normal text-muted small border-0"
-                                    scope="col">Played
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for round in object_list %}
+    <div class="d-flex justify-content-center">
+        <div class="w-100 d-flex text-centre justify-content-between">
+            <div class="bg-white shadow-sm w-100 white-container">
+                <div class="table-responsive p-0 w-100"
+                     style="max-height: 800px">
+                    <table class="text-center table m-0 w-100">
+                        <thead>
+                        <tr class="border-muted border-bottom">
+                            <th class="fw-normal text-muted small border-0"
+                                scope="col">Number
+                            </th>
+                            <th class="fw-normal text-muted small border-0"
+                                scope="col">Played
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for round in object_list %}
                             <tr>
-                                <td><a href="{% url 'round-detail' league.name round.number %}">Round {{ round.number }}</a></td>
+                                <td>
+                                    <a href="{% url 'round_detail' league.name round.number %}">Round {{ round.number }}</a>
+                                </td>
                                 <td>
                                     <i class="bi bi-check text-success display-6"></i>
                                 </td>
                             </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
