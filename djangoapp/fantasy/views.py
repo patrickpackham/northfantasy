@@ -163,10 +163,11 @@ class PlayerPointsView(AdminCheckMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
-        if form.is_valid():
-            for subform in form:
-                if subform.is_valid():
-                    subform.save()
+        for subform in form:
+            if subform.is_valid():
+                subform.save()
+            elif subform.instance.id and not subform.data.get('player'):
+                subform.instance.delete()
         messages.success(self.request,
                          "Scores successfully updated!")
         return HttpResponseRedirect(self.get_success_url())
