@@ -2,11 +2,9 @@ from django.views.generic import TemplateView, FormView, ListView
 from django.urls import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from django.forms import modelformset_factory
 
-from .forms import PlayerPointsFormSet, PlayerPositionsFormSet, \
-    PlayerPointsForm
-from .models import League, Player, Round, LeagueRule, PlayerPoints
+from .forms import PlayerPointsFormSet, PlayerPositionsFormSet
+from .models import League, Player, Round, LeagueRule
 from .auth import AdminCheckMixin
 
 
@@ -102,9 +100,7 @@ class PlayerPositionsView(AdminCheckMixin, FormView):
 class PlayerPointsView(AdminCheckMixin, TemplateView):
     template_name = 'add_points.html'
     success_url = '/success/'
-    model = PlayerPoints
     formset_class = PlayerPointsFormSet
-    form_class = PlayerPointsForm
 
     def get_context_data(self, **kwargs):
         context = super(PlayerPointsView, self).get_context_data(**kwargs)
@@ -131,13 +127,13 @@ class PlayerPointsView(AdminCheckMixin, TemplateView):
         }
         kwargs = self.get_form_kwargs()
         if self.request.method == "POST":
-            formset = self.get_formset_class(extra=1)(data=self.request.POST,
-                                                      rule=rule,
-                                                      form_kwargs=kwargs,
-                                                      empty_initial=initial)
+            formset = self.formset_class(data=self.request.POST,
+                                         rule=rule,
+                                         form_kwargs=kwargs,
+                                         empty_initial=initial)
         else:
-            formset = self.get_formset_class(
-                extra=1)(rule=rule, form_kwargs=kwargs, empty_initial=initial)
+            formset = self.formset_class(rule=rule, form_kwargs=kwargs,
+                                         empty_initial=initial)
             for form in formset:
                 if not form.instance.id:
                     form.initial = initial
