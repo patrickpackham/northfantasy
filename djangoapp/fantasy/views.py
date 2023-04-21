@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.forms import modelformset_factory
 
 from .forms import BasePlayerPointsFormSet, PlayerPositionsFormSet, PlayerPointsForm
-from .models import League, Player, Round, LeagueRule, PlayerPoints
+from .models import Player, Round, LeagueRule, PlayerPoints
 from .mixins import AdminCheckMixin, ContextMixin
 
 
@@ -104,16 +104,17 @@ class PlayerPointsView(AdminCheckMixin, ContextMixin, TemplateView):
         initial = self.get_initial()
         kwargs = self.get_form_kwargs()
 
-        # See the docstring for get_formset_class for how we can customize the formset.
+        # See the get_formset_class docstring for how
+        # to customize the formset on a per-view basis
         if self.request.method == "POST":
-            formset = self.get_formset_class(extra=self.rule.initial_forms)(
+            formset = self.get_formset_class(extra=self.rule.required_extra_forms)(
                 data=self.request.POST,
                 rule=self.rule,
                 form_kwargs=kwargs,
                 empty_initial=initial,
             )
         else:
-            formset = self.get_formset_class(extra=self.rule.initial_forms)(
+            formset = self.get_formset_class(extra=self.rule.required_extra_forms)(
                 rule=self.rule, form_kwargs=kwargs, empty_initial=initial
             )
             # Only set initial if there is no instance, so we don't override record data

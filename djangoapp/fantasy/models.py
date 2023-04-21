@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+
 
 POSITION_CHOICES = [
     ("Keeper", "Keeper"),
@@ -67,6 +69,22 @@ class LeagueRule(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def required_extra_forms(self):
+        required_extra = self.initial_forms - self.playerpoints_set.count()
+        if required_extra > -1:
+            return required_extra
+        return 0
+
+
+class PlayerRoundPosition(models.Model):
+    player = models.ForeignKey("Player", on_delete=models.CASCADE)
+    round = models.ForeignKey("Round", on_delete=models.CASCADE)
+    position = models.CharField(max_length=256, choices=POSITION_CHOICES)
+
+    def __str__(self):
+        return f"{self.player}: {self.position}"
+
 
 class PlayerPoints(models.Model):
     rule = models.ForeignKey("LeagueRule", on_delete=models.CASCADE)
@@ -80,11 +98,17 @@ class PlayerPoints(models.Model):
     def __str__(self):
         return f"{self.points}"
 
-
-class PlayerRoundPosition(models.Model):
-    player = models.ForeignKey("Player", on_delete=models.CASCADE)
-    round = models.ForeignKey("Round", on_delete=models.CASCADE)
-    position = models.CharField(max_length=256, choices=POSITION_CHOICES)
-
-    def __str__(self):
-        return f"{self.player}: {self.position}"
+    def save(self, *args, **kwargs):
+        if self.round and self.player and self.rule:
+            position = PlayerRoundPosition.objects.get(
+                player=self.player, round=self.round
+            ).position
+            if position == "Keeper":
+                self.points = self.rule.keeper_points
+            elif position == "Defender":
+                self.points = self.rule.defender_points
+            elif position == "Midfield":
+                self.points = self.rule.midfield_points
+            elif position == "Forward":
+                self.points = self.rule.forward_points
+        super(PlayerPoints, self).save(*args, **kwargs)

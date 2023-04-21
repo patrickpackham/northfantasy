@@ -62,25 +62,6 @@ class PlayerPointsForm(ModelForm):
         self.fields["player"].queryset = players
         self.fields["player"].label = ""
 
-    def clean(self):
-        cleaned_data = super(PlayerPointsForm, self).clean()
-        round = cleaned_data.get("round")
-        player = cleaned_data.get("player")
-        rule = cleaned_data.get("rule")
-        if round and player and rule:
-            position = PlayerRoundPosition.objects.get(
-                player=player, round=round
-            ).position
-            if position == "Keeper":
-                cleaned_data["points"] = rule.keeper_points
-            elif position == "Defender":
-                cleaned_data["points"] = rule.defender_points
-            elif position == "Midfield":
-                cleaned_data["points"] = rule.midfield_points
-            elif position == "Forward":
-                cleaned_data["points"] = rule.forward_points
-        return cleaned_data
-
 
 class BasePlayerPointsFormSet(BaseModelFormSet):
     empty_initial = {}
