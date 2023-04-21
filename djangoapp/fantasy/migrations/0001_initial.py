@@ -5,56 +5,136 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='League',
+            name="League",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
             ],
         ),
         migrations.CreateModel(
-            name='LeagueRule',
+            name="LeagueRule",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=1024)),
-                ('midfield_points', models.IntegerField()),
-                ('forward_points', models.IntegerField()),
-                ('defender_points', models.IntegerField()),
-                ('keeper_points', models.IntegerField()),
-                ('league', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fantasy.league')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=1024)),
+                ("midfield_points", models.IntegerField()),
+                ("forward_points", models.IntegerField()),
+                ("defender_points", models.IntegerField()),
+                ("keeper_points", models.IntegerField()),
+                (
+                    "league",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="fantasy.league"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Player',
+            name="Player",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('league', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fantasy.league')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                (
+                    "league",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="fantasy.league"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Round',
+            name="Round",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('number', models.IntegerField()),
-                ('league', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fantasy.league')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("number", models.IntegerField()),
+                (
+                    "league",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="fantasy.league"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='PlayerPoints',
+            name="PlayerPoints",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('position', models.CharField(choices=[('Midfield', 'Midfield'), ('Forward', 'Forward'), ('Defender', 'Defender'), ('Keeper', 'Keeper')], max_length=64)),
-                ('player', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fantasy.player')),
-                ('round', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fantasy.round')),
-                ('rule', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fantasy.leaguerule')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "position",
+                    models.CharField(
+                        choices=[
+                            ("Midfield", "Midfield"),
+                            ("Forward", "Forward"),
+                            ("Defender", "Defender"),
+                            ("Keeper", "Keeper"),
+                        ],
+                        max_length=64,
+                    ),
+                ),
+                (
+                    "player",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="fantasy.player"
+                    ),
+                ),
+                (
+                    "round",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="fantasy.round"
+                    ),
+                ),
+                (
+                    "rule",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="fantasy.leaguerule",
+                    ),
+                ),
             ],
         ),
     ]

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import *
 
+
 @admin.register(League)
 class LeagueAdmin(admin.ModelAdmin):
     pass

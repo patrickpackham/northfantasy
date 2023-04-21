@@ -5,26 +5,33 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('fantasy', '0004_alter_playerpoints_options_and_more'),
+        ("fantasy", "0004_alter_playerpoints_options_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='playerpoints',
-            name='player_position',
+            model_name="playerpoints",
+            name="player_position",
         ),
         migrations.AddField(
-            model_name='playerpoints',
-            name='player',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='fantasy.player'),
+            model_name="playerpoints",
+            name="player",
+            field=models.ForeignKey(
+                default=0,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="fantasy.player",
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='playerpoints',
-            name='round',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='fantasy.round'),
+            model_name="playerpoints",
+            name="round",
+            field=models.ForeignKey(
+                default=0,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="fantasy.round",
+            ),
             preserve_default=False,
         ),
     ]

@@ -18,22 +18,36 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path, include
 from django.conf import settings
 
-from .views import LeagueHome, Rounds, RoundDetail, PlayerPointsView,\
-    PlayerPositionsView
+from .views import (
+    LeagueHome,
+    Rounds,
+    RoundDetail,
+    PlayerPointsView,
+    PlayerPositionsView,
+)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('league/<str:league_name>', LeagueHome.as_view(), name='league_home'),
-    path('league/<str:league_name>/rounds', Rounds.as_view(), name='rounds'),
-    path('league/<str:league_name>/round/<int:round_number>',
-         RoundDetail.as_view(), name='round_detail'),
-    path('league/<str:league_name>/round/<int:round_number>/add-positions/',
-         PlayerPositionsView.as_view(), name='add_positions'),
-    path('league/<str:league_name>/round/<int:round_number>/add-points/<int:rule_number>/',
-         PlayerPointsView.as_view(), name='add_points'),
-    path('login', LoginView.as_view(), name='login'),
-    path('logout', LogoutView.as_view(), name='logout')
+    path("admin/", admin.site.urls),
+    path("league/<str:league_name>", LeagueHome.as_view(), name="league_home"),
+    path("league/<str:league_name>/rounds", Rounds.as_view(), name="rounds"),
+    path(
+        "league/<str:league_name>/round/<int:round_number>",
+        RoundDetail.as_view(),
+        name="round_detail",
+    ),
+    path(
+        "league/<str:league_name>/round/<int:round_number>/add-positions/",
+        PlayerPositionsView.as_view(),
+        name="add_positions",
+    ),
+    path(
+        "league/<str:league_name>/round/<int:round_number>/add-points/<int:rule_number>/",
+        PlayerPointsView.as_view(),
+        name="add_points",
+    ),
+    path("login", LoginView.as_view(), name="login"),
+    path("logout", LogoutView.as_view(), name="logout"),
 ]
 
 if settings.DEBUG:
-    urlpatterns += path('__debug__/', include('debug_toolbar.urls')),
+    urlpatterns += (path("__debug__/", include("debug_toolbar.urls")),)

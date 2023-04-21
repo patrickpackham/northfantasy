@@ -5,26 +5,29 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('fantasy', '0002_playerpoints_points'),
+        ("fantasy", "0002_playerpoints_points"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='leaguerule',
-            name='number',
+            model_name="leaguerule",
+            name="number",
             field=models.IntegerField(default=1),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='league',
-            name='name',
+            model_name="league",
+            name="name",
             field=models.CharField(max_length=255, unique=True),
         ),
         migrations.AlterField(
-            model_name='player',
-            name='league',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fantasy.league', unique=True),
+            model_name="player",
+            name="league",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="fantasy.league",
+                unique=True,
+            ),
         ),
     ]

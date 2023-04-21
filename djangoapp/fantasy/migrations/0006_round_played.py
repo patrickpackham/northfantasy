@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('fantasy', '0005_remove_playerpoints_player_position_and_more'),
+        ("fantasy", "0005_remove_playerpoints_player_position_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='round',
-            name='played',
+            model_name="round",
+            name="played",
             field=models.BooleanField(default=False),
         ),
     ]

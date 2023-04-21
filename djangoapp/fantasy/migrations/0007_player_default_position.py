@@ -4,16 +4,24 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('fantasy', '0006_round_played'),
+        ("fantasy", "0006_round_played"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='player',
-            name='default_position',
-            field=models.CharField(choices=[('Keeper', 'Keeper'), ('Defender', 'Defender'), ('Midfield', 'Midfield'), ('Forward', 'Forward')], default='Midfield', max_length=255),
+            model_name="player",
+            name="default_position",
+            field=models.CharField(
+                choices=[
+                    ("Keeper", "Keeper"),
+                    ("Defender", "Defender"),
+                    ("Midfield", "Midfield"),
+                    ("Forward", "Forward"),
+                ],
+                default="Midfield",
+                max_length=255,
+            ),
             preserve_default=False,
         ),
     ]

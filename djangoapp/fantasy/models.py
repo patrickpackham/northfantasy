@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-POSITION_CHOICES = [("Keeper", "Keeper"),
-                    ("Defender", "Defender"),
-                    ("Midfield", "Midfield"),
-                    ("Forward", "Forward")]
+POSITION_CHOICES = [
+    ("Keeper", "Keeper"),
+    ("Defender", "Defender"),
+    ("Midfield", "Midfield"),
+    ("Forward", "Forward"),
+]
 
 
 class League(models.Model):
@@ -17,9 +19,8 @@ class League(models.Model):
 
 class Player(models.Model):
     name = models.CharField(max_length=255)
-    league = models.ForeignKey('League', on_delete=models.CASCADE)
-    default_position = models.CharField(max_length=255,
-                                        choices=POSITION_CHOICES)
+    league = models.ForeignKey("League", on_delete=models.CASCADE)
+    default_position = models.CharField(max_length=255, choices=POSITION_CHOICES)
 
     def __str__(self):
         return self.name
@@ -28,19 +29,17 @@ class Player(models.Model):
         points = self.playerpoints_set.all()
         if round:
             points = points.filter(round=round)
-        points = points.aggregate(models.Sum('points'))['points__sum']
+        points = points.aggregate(models.Sum("points"))["points__sum"]
         return points if points else 0
 
     def goals(self, round=None):
-        goal_points = self.playerpoints_set.filter(
-            rule__title__icontains='goals')
+        goal_points = self.playerpoints_set.filter(rule__title__icontains="goals")
         if round:
             goal_points = goal_points.filter(round=round)
         return goal_points.count()
 
     def assists(self, round=None):
-        assist_points = self.playerpoints_set.filter(
-            rule__title__icontains='assist')
+        assist_points = self.playerpoints_set.filter(rule__title__icontains="assist")
         if round:
             assist_points = assist_points.filter(round=round)
         return assist_points.count()
@@ -48,7 +47,7 @@ class Player(models.Model):
 
 class Round(models.Model):
     number = models.IntegerField()
-    league = models.ForeignKey('League', on_delete=models.CASCADE)
+    league = models.ForeignKey("League", on_delete=models.CASCADE)
     played = models.BooleanField(default=False)
 
     def __str__(self):
@@ -58,7 +57,7 @@ class Round(models.Model):
 class LeagueRule(models.Model):
     title = models.CharField(max_length=1024)
     number = models.IntegerField()
-    league = models.ForeignKey('League', on_delete=models.CASCADE)
+    league = models.ForeignKey("League", on_delete=models.CASCADE)
     midfield_points = models.IntegerField()
     forward_points = models.IntegerField()
     defender_points = models.IntegerField()
@@ -70,9 +69,9 @@ class LeagueRule(models.Model):
 
 
 class PlayerPoints(models.Model):
-    rule = models.ForeignKey('LeagueRule', on_delete=models.CASCADE)
-    player = models.ForeignKey('Player', on_delete=models.CASCADE)
-    round = models.ForeignKey('Round', on_delete=models.CASCADE)
+    rule = models.ForeignKey("LeagueRule", on_delete=models.CASCADE)
+    player = models.ForeignKey("Player", on_delete=models.CASCADE)
+    round = models.ForeignKey("Round", on_delete=models.CASCADE)
     points = models.IntegerField()
 
     class Meta:
@@ -83,8 +82,8 @@ class PlayerPoints(models.Model):
 
 
 class PlayerRoundPosition(models.Model):
-    player = models.ForeignKey('Player', on_delete=models.CASCADE)
-    round = models.ForeignKey('Round', on_delete=models.CASCADE)
+    player = models.ForeignKey("Player", on_delete=models.CASCADE)
+    round = models.ForeignKey("Round", on_delete=models.CASCADE)
     position = models.CharField(max_length=256, choices=POSITION_CHOICES)
 
     def __str__(self):

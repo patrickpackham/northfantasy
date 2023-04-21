@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('fantasy', '0008_league_admin'),
+        ("fantasy", "0008_league_admin"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='leaguerule',
-            name='initial_forms',
+            model_name="leaguerule",
+            name="initial_forms",
             field=models.IntegerField(default=1),
             preserve_default=False,
         ),
