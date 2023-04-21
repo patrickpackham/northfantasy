@@ -3,13 +3,11 @@
 
 {% block body %}
     {% if messages %}
-    <div class="m-2 d-flex">
         {% for message in messages %}
             <div class="text-centre w-100 alert alert-success" role="alert">
                 {{ message }}
             </div>
         {% endfor %}
-    </div>
     {% endif %}
     <div class="{% if not messages %}mt-4{% endif %} mb-4 m-2 d-flex text-centre">
         <div class="w-50 d-flex justify-content-start mr-15p">
