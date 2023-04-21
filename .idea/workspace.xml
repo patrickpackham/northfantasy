@@ -36,7 +36,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="copyright.filetypes.Python" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Python" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -70,7 +70,7 @@
       <workItem from="1681700894082" duration="8448000" />
       <workItem from="1681712832705" duration="10206000" />
       <workItem from="1681780861502" duration="36192000" />
-      <workItem from="1682042368191" duration="2169000" />
+      <workItem from="1682042368191" duration="8902000" />
     </task>
     <servers />
   </component>

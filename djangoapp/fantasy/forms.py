@@ -102,14 +102,6 @@ class BasePlayerPointsFormSet(BaseModelFormSet):
         return empty_form
 
 
-PlayerPointsFormSet = modelformset_factory(
-    PlayerPoints,
-    fields=["player", "round", "rule", "points"],
-    formset=BasePlayerPointsFormSet,
-    form=PlayerPointsForm,
-    extra=1,
-)
-
 PlayerPositionsFormSet = modelformset_factory(
     PlayerRoundPosition,
     fields=["round", "player", "position", "id"],
