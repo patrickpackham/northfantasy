@@ -3,6 +3,7 @@ from .models import *
 
 # TODO Flesh these out.
 
+
 @admin.register(League)
 class LeagueAdmin(admin.ModelAdmin):
     pass

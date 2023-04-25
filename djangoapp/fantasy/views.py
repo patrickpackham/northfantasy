@@ -152,7 +152,7 @@ class PlayerPointsView(AdminCheckMixin, ContextMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         # We don't really need granular control of invalid and valid behaviour here as
-        # users shouldn't be able to submit bad data to via the form to this method. 
+        # users shouldn't be able to submit bad data to via the form to this method.
         form = self.get_form()
         for subform in form:
             if subform.is_valid():
