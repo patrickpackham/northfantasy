@@ -5,6 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 class AdminCheckMixin(object):
+    """Simple authorization mixin for making sure only admins are editing scores."""
     def dispatch(self, *args, **kwargs):
         league = League.objects.get(name__icontains=self.kwargs["league_name"])
         if self.request.user != league.admin:
@@ -15,6 +16,11 @@ class AdminCheckMixin(object):
 
 
 class ContextMixin(object):
+    """
+    This class is used to provide some common variables to itself based on what is
+    present in the url pattern. This mixin should only be used with views that require
+    frequent use of the records named in the url used to access them.
+    """
     league = None
     round = None
     rule = None

@@ -17,6 +17,8 @@ The project will then spin up two containers, one for running the Django applica
 
 You will then have to create a League, your league rules and input your players and rounds via their respective tables.  For now there is no CRUD pages for these records so I recommend using the Django admin.
 
+The code is formatted with <a href="https://github.com/psf/black">black.</a> I recommend checking out the docs and using this if forking the project. 
+
 Keep in mind, when creating your League record you will have to associate it with a user record as an admin so you can actually add points to your players. For the time being I recommend using ```manage.py createsuperuser```
 ## Development Roadmap
 There are quite a few features that are planned for development, however currently the application is use usable as a way to track everyone's points.
