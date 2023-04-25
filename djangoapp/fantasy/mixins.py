@@ -17,6 +17,7 @@ class AdminCheckMixin(object):
 class ContextMixin(object):
     league = None
     round = None
+    rule = None
 
     def dispatch(self, *args, **kwargs):
         try:
