@@ -2,14 +2,14 @@
 ## Project Description
 This is a lightweight Django (4.1) web application that can be used to run your own custom Fantasy League for your local football team. 
 
-It was born out of a personal need where our football team was running a custom Fantasy League for our Friday night soccer games. The use of multiple spreadsheets was getting convoluted and as such this applicatin was born.
+It was born out of a personal need where our football team was running a custom Fantasy League for our Friday night soccer games. The use of multiple spreadsheets was getting convoluted and as such this application was born.
 
 ## Features
 Basic features include the ability to input a position for each player for each round and then select which player scored points for each rule. 
 
-An additional field on League Rules is the ```required_forms``` which will display x amount of forms when inputting points, as some rules more people are likely to score, for example, attending a game, while some will be less, for example, scoring a goal.
+An additional field on League Rules is the ```required_forms``` which will display x amount of forms when inputting points, as some rules more people are likely to score, for example, attending a game, while some will be less, for example, scoring a goal. However, the amount of forms can be toggled on the page regardless.
 
-Other additional features include the ability to adjust points based on the position, allowing you to award more points for a defender scoring a goal, as an example and the ability to see all goals, assists and individual points for the season and individual rounds.
+Other additional features include the ability to adjust points based on the position, for example, allowing you to award more points for a defender scoring a goal and the ability to see all goals, assists and individual points for the season and individual rounds.
 ## Setup
 To run the project locally, simply clone this repository and ```run docker compose up```
 
@@ -27,4 +27,4 @@ Following this, adding the CRUD functionality within the app itself for League a
 
 Custom positions per league is also on the roadmap as this will allow the application to be used outside the context of a football team.
 
-We'll probably also add a nice marketable homepage and some basic functionality to search for and view all League's, just so players have an easy way to find what they are looking for.
+We'll probably also add a nice marketable homepage and some basic functionality to search for and view all Leagues, just so players have an easy way to find what they are looking for.
