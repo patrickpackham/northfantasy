@@ -4,6 +4,8 @@ This is a lightweight Django (4.1) web application that can be used to run your 
 
 It was born out of a personal need where our football team was running a custom Fantasy League for our Friday night soccer games. The use of multiple spreadsheets was getting convoluted and as such this application was born.
 
+Please note that the site is currently only designed to work on mobile screens for now.
+
 ## Features
 Basic features include the ability to input a position for each player for each round and then select which player scored points for each rule. 
 
