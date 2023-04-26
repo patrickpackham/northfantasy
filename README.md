@@ -11,7 +11,7 @@ An additional field on League Rules is the ```required_forms``` which will displ
 
 Other additional features include the ability to adjust points based on the position, for example, allowing you to award more points for a defender scoring a goal and the ability to see all goals, assists and individual points for the season and individual rounds.
 ## Setup
-To run the project locally, simply clone this repository and ```run docker compose up```
+To run the project locally (provided you have Docker installed), simply clone this repository and ```docker compose build``` followed by  ```docker compose up```
 
 The project will then spin up two containers, one for running the Django application with runserver and another to host the Postgres Server for the database. 
 
