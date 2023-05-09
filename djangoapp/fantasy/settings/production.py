@@ -1,7 +1,7 @@
 from django.core.management.utils import get_random_secret_key
 
 from .base import *
-import sentry_sdk
+import sentry-sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 DEBUG = False
