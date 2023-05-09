@@ -1,8 +1,9 @@
 from django.core.management.utils import get_random_secret_key
+import dj_database_url
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 from .base import *
-import sentry-sdk
-from sentry_sdk.integrations.django import DjangoIntegration
 
 DEBUG = False
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
