@@ -4,9 +4,11 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 INTERNAL_IPS = ["127.0.0.1", "localhost"]
 
-INSTALLED_APPS += []
+INSTALLED_APPS += ["debug_toolbar"]
 
 MIDDLEWARE += []
+
+SECRET_KEY = '9(dirvru1(h675^3a6*_klc=su3976k7dve@1q3=ntvnckh&+s'
 
 
 TEMPLATES = [
