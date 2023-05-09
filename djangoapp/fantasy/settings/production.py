@@ -15,7 +15,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 DATABASES["default"] = dj_database_url.parse(os.environ.get("DATABASE_URL"))
 
 print(BASE_DIR)
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 print(STATICFILES_DIRS)
 
 TEMPLATES = [
