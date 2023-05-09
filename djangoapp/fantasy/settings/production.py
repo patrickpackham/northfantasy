@@ -15,7 +15,17 @@ MIDDLEWARE += []
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
-DATABASES["default"] = dj_database_url.parse(os.environ.get("DATABASE_URL"))
+# only temp details.
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "db",
+        "USER": "db",
+        "PASSWORD": "AVNS_jeOxTgG6bTTyKq-3X8R",
+        "HOST": "app-c0861794-c49f-449f-a5c1-8d2530eecb3e-do-user-11775277-0.b.db.ondigitalocean.com",
+        "PORT": "25060",
+        }
+}
 
 TEMPLATES = [
     {
