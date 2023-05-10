@@ -4,7 +4,7 @@
 {% block body %}
     <div class="mt-4 mb-4 m-2 d-flex text-centre">
         <div class="w-75 d-flex justify-content-start mr-15p">
-            <h5>{{ league }} Season Total</h5>
+            <h5>{{ league|title }} Season Total</h5>
         </div>
         <div class="w-25 d-flex justify-content-end ml-15p">
             <a href="{% url 'rounds' league %}"><button class="mt-5p right btn">Rounds</button></a>
