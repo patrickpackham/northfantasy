@@ -25,6 +25,7 @@ from .views import (
     RoundDetail,
     PlayerPointsView,
     PlayerPositionsView,
+    EnterScoreView
 )
 
 urlpatterns = [
@@ -37,15 +38,18 @@ urlpatterns = [
         name="round_detail",
     ),
     path(
-        "league/<str:league_name>/round/<int:round_number>/add-positions/",
+        "league/<str:league_name>/round/<int:round_number>/add-positions",
         PlayerPositionsView.as_view(),
         name="add_positions",
     ),
     path(
-        "league/<str:league_name>/round/<int:round_number>/add-points/<int:rule_number>/",
+        "league/<str:league_name>/round/<int:round_number>/add-points/<int:rule_number>",
         PlayerPointsView.as_view(),
         name="add_points",
     ),
+    path("league/<str:league_name>/round/<int:round_number>/add-score",
+         EnterScoreView.as_view(),
+         name="enter_score"),
     path("login", LoginView.as_view(), name="login"),
     path("logout", LogoutView.as_view(), name="logout"),
 ]

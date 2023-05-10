@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="mt-4 mb-3 m-2 d-flex text-centre">
+        <h5>Please enter the final score round {{ round.number }}</h5>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="w-100 d-flex text-centre justify-content-between">
+            <div class="bg-white shadow-sm w-100 white-container p-4">
+                <div class="table-responsive p-0 w-100"
+                     style="max-height: 800px">
+                    <form method="post">
+                        {% csrf_token %}
+                        <label for="id_our_score">Our Score:</label><br>
+                        <input type="number" name="our_score" class="w-100 form-control" required="" id="id_our_score">
+                        <label class="mt-3" for="id_opponent_score">Opponent Score:</label><br>
+                        <input type="number" name="opponent_score" class="w-100 form-control" required="" id="id_opponent_score">
+                        <input type="submit"
+                                class="w-100 btn btn-danger mt-3"
+                                value="Next">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

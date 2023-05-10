@@ -15,7 +15,7 @@
         </div>
         {% if league.admin == request.user %}
         <div class="w-50 d-flex justify-content-end ml-15p">
-            <a href="{% url 'add_positions' league.name round.number %}">
+            <a href="{% url 'enter_score' league.name round.number %}">
                 <button class="mt-5p right btn">Edit Scores</button>
             </a>
         </div>

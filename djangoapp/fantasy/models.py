@@ -51,6 +51,8 @@ class Round(models.Model):
     number = models.IntegerField()
     league = models.ForeignKey("League", on_delete=models.CASCADE)
     played = models.BooleanField(default=False)
+    our_score = models.IntegerField(default=0)
+    opposition_score = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.league} Round {self.number}"
@@ -58,13 +60,14 @@ class Round(models.Model):
 
 class LeagueRule(models.Model):
     title = models.CharField(max_length=1024)
-    number = models.IntegerField()
+    number = models.IntegerField(blank=True, null=True)
     league = models.ForeignKey("League", on_delete=models.CASCADE)
     midfield_points = models.IntegerField()
     forward_points = models.IntegerField()
     defender_points = models.IntegerField()
     keeper_points = models.IntegerField()
     initial_forms = models.IntegerField()
+    calculated_from_score = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -100,7 +103,7 @@ class PlayerPoints(models.Model):
 
     def save(self, *args, **kwargs):
 
-        if self.round and self.player and self.rule:
+        if self.round and self.player and self.rule and not self.rule.calculated_from_score:
             position = PlayerRoundPosition.objects.get_or_create(
                 defaults={"position": self.player.default_position},
                 player=self.player, round=self.round

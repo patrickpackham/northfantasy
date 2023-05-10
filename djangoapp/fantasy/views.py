@@ -3,9 +3,11 @@ from django.urls import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.forms import modelformset_factory
+from math import trunc
 
-from .forms import BasePlayerPointsFormSet, PlayerPositionsFormSet, PlayerPointsForm
-from .models import Player, Round, LeagueRule, PlayerPoints
+from .forms import BasePlayerPointsFormSet, PlayerPositionsFormSet, PlayerPointsForm,\
+    ScoreForm
+from .models import Player, Round, LeagueRule, PlayerPoints, PlayerRoundPosition
 from .mixins import AdminCheckMixin, ContextMixin
 
 
@@ -56,6 +58,87 @@ class RoundDetail(ContextMixin, ListView):
         context["league"] = self.league
         context["round"] = self.round
         return context
+    
+    
+class EnterScoreView(AdminCheckMixin, ContextMixin, FormView):
+    template_name = "add_game_score.html"
+    form_class = ScoreForm
+
+    def get_context_data(self, **kwargs):
+        context = super(EnterScoreView, self).get_context_data(**kwargs)
+        context["league"] = self.league
+        context["round"] = self.round
+        return context
+    
+    def form_invalid(self, form):
+        import pdb; pdb.set_trace()
+        print(form.errors)
+        print(self.request)
+        return super(EnterScoreView, self).form_invalid(form)
+
+    def form_valid(self, form):
+        self.round.our_score = int(form.cleaned_data.get('our_score'))
+        self.round.opponent_score = int(form.cleaned_data.get('opponent_score'))
+        self.round.save()
+        cleansheet_rule = LeagueRule.objects.get(league=self.league,
+                                                 title='kept a cleansheet')
+        conceeded_two_rule = LeagueRule.objects.get(league=self.league,
+                                                    title='every 2 conceeded.')
+        players = Player.objects.filter(league=self.league)
+
+        # Delete the old points awarded for score based scoring.
+        PlayerPoints.objects.filter(
+            player__in=players,
+            rule__in=[conceeded_two_rule, cleansheet_rule],
+            round=self.round
+        ).delete()
+
+        # Determine if defensive players get points for keeping a clean sheet.
+        if self.round.opponent_score == 0:
+            position_point_map = {
+                'Keeper': cleansheet_rule.keeper_points,
+                'Defender': cleansheet_rule.defender_points,
+                'Midfield': cleansheet_rule.midfield_points,
+            }
+            for player in players:
+                round_position = PlayerRoundPosition.objects.get_or_create(
+                    defaults={'position': player.default_position},
+                    player=player, round=self.round)[0].position
+                if round_position in ['Keeper', 'Defender', 'Midfield']:
+                    PlayerPoints.objects.get_or_create(
+                        defaults={'points': position_point_map[round_position]},
+                        player=player,
+                        round=self.round,
+                        rule=cleansheet_rule
+                    )
+
+        # Determine if defensive players lose points for conceeding lots of goals.
+        how_many_times_conceeded_2 = trunc(self.round.opponent_score / 2)
+        if how_many_times_conceeded_2 > 1:
+            position_point_map = {
+                'Keeper': conceeded_two_rule.keeper_points,
+                'Defender': conceeded_two_rule.defender_points,
+            }
+            for player in players:
+                round_position = PlayerRoundPosition.objects.get_or_create(
+                    defaults={'position': player.default_position},
+                    player=player, round=self.round)[0].position
+                if round_position in ['Keeper', 'Defender']:
+                    import pdb;
+                    pdb.set_trace()
+                    points = position_point_map[round_position] * how_many_times_conceeded_2
+                    p, created = PlayerPoints.objects.get_or_create(
+                        defaults={'points': points},
+                        player=player,
+                        round=self.round,
+                        rule=conceeded_two_rule
+                    )
+                    print(created)
+                    print(p.points)
+        return super(EnterScoreView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse("add_positions", kwargs=self.kwargs)
 
 
 class PlayerPositionsView(AdminCheckMixin, ContextMixin, TemplateView):

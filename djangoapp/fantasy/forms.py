@@ -83,6 +83,13 @@ class BasePlayerPointsFormSet(BaseModelFormSet):
         return empty_form
 
 
+class ScoreForm(Form):
+    our_score = IntegerField()
+    opponent_score = IntegerField()
+
+    class Meta:
+        fields = ['our_score', 'opponent_score']
+
 PlayerPositionsFormSet = modelformset_factory(
     PlayerRoundPosition,
     fields=["round", "player", "position", "id"],
