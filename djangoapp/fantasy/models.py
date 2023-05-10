@@ -99,6 +99,9 @@ class PlayerPoints(models.Model):
         return f"{self.points}"
 
     def save(self, *args, **kwargs):
+        round = self.round
+        player = self.player
+        rule = self.rule
         if self.round and self.player and self.rule:
             position = PlayerRoundPosition.objects.get(
                 player=self.player, round=self.round
