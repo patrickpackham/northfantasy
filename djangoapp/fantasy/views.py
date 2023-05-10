@@ -69,12 +69,6 @@ class EnterScoreView(AdminCheckMixin, ContextMixin, FormView):
         context["league"] = self.league
         context["round"] = self.round
         return context
-    
-    def form_invalid(self, form):
-        import pdb; pdb.set_trace()
-        print(form.errors)
-        print(self.request)
-        return super(EnterScoreView, self).form_invalid(form)
 
     def form_valid(self, form):
         self.round.our_score = int(form.cleaned_data.get('our_score'))
@@ -83,7 +77,7 @@ class EnterScoreView(AdminCheckMixin, ContextMixin, FormView):
         cleansheet_rule = LeagueRule.objects.get(league=self.league,
                                                  title='kept a cleansheet')
         conceeded_two_rule = LeagueRule.objects.get(league=self.league,
-                                                    title='every 2 conceeded.')
+                                                    title='every 2 conceeded')
         players = Player.objects.filter(league=self.league)
 
         # Delete the old points awarded for score based scoring.
@@ -246,7 +240,6 @@ class PlayerPointsView(AdminCheckMixin, ContextMixin, TemplateView):
                 subform.save()
             elif subform.instance.id and not subform.data.get("player"):
                 subform.instance.delete()
-        messages.success(self.request, "Scores successfully updated!")
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
@@ -264,6 +257,7 @@ class PlayerPointsView(AdminCheckMixin, ContextMixin, TemplateView):
                     "rule_number": next_rule.number,
                 },
             )
+        messages.success(self.request, "Scores successfully updated!")
         return reverse(
             "round_detail",
             kwargs={"league_name": self.league.name, "round_number": self.round.number},
