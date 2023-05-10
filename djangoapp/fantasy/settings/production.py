@@ -22,7 +22,7 @@ DATABASES = {
         "NAME": "db",
         "USER": "db",
         "PASSWORD": "AVNS_jeOxTgG6bTTyKq-3X8R",
-        "HOST": "private-app-c0861794-c49f-449f-a5c1-8d2530eecb3e-do-user-117752.b.db.ondigitalocean.com",
+        "HOST": "app-c0861794-c49f-449f-a5c1-8d2530eecb3e-do-user-11775277-0.b.db.ondigitalocean.com",
         "PORT": "25060",
         }
 }
