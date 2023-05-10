@@ -99,14 +99,12 @@ class PlayerPoints(models.Model):
         return f"{self.points}"
 
     def save(self, *args, **kwargs):
-        round = self.round
-        player = self.player
-        rule = self.rule
+
         if self.round and self.player and self.rule:
             position = PlayerRoundPosition.objects.get_or_create(
                 defaults={"position": player.default_position},
                 player=self.player, round=self.round
-            ).position
+            )[0].position
             if position == "Keeper":
                 self.points = self.rule.keeper_points
             elif position == "Defender":
