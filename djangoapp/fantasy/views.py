@@ -58,15 +58,22 @@ class RoundDetail(ContextMixin, ListView):
         return context
 
 
-class PlayerPositionsView(AdminCheckMixin, ContextMixin, FormView):
+class PlayerPositionsView(AdminCheckMixin, ContextMixin, TemplateView):
     template_name = "add_positions.html"
-    form_class = PlayerPositionsFormSet
+    formset_class = PlayerPositionsFormSet
 
     def get_context_data(self, **kwargs):
         context = super(PlayerPositionsView, self).get_context_data(**kwargs)
         context["round"] = self.round
         context["league"] = self.league
+        context["form"] = self.get_form()
         return context
+    
+    def get_form(self):
+        if self.request.method == "POST":
+            return self.formset_class(data=self.request.POST,
+                                      round=self.round)
+        return self.formset_class(round=self.round)
 
     def get_success_url(self):
         kwargs = self.kwargs
@@ -74,20 +81,17 @@ class PlayerPositionsView(AdminCheckMixin, ContextMixin, FormView):
         kwargs["rule_number"] = 1
         return reverse("add_points", kwargs=kwargs)
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["round"] = self.round
-        return kwargs
-
-    def form_valid(self, form):
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
         for subform in form:
-            subform.save()
-        return super(PlayerPositionsView, self).form_valid(form)
+            if subform.is_valid():
+                subform.save()
+        return HttpResponseRedirect(self.get_success_url())
+
 
 
 class PlayerPointsView(AdminCheckMixin, ContextMixin, TemplateView):
     template_name = "add_points.html"
-    success_url = "/success/"
     model = PlayerPoints
     form_class = PlayerPointsForm
     formset_class = BasePlayerPointsFormSet
@@ -152,7 +156,7 @@ class PlayerPointsView(AdminCheckMixin, ContextMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         # We don't really need granular control of invalid and valid behaviour here as
-        # users shouldn't be able to submit bad data to via the form to this method.
+        # users shouldn't be able to submit bad data via the form to this method.
         form = self.get_form()
         for subform in form:
             if subform.is_valid():
@@ -173,8 +177,8 @@ class PlayerPointsView(AdminCheckMixin, ContextMixin, TemplateView):
                 "add_points",
                 kwargs={
                     "league_name": self.league.name,
-                    "round_id": self.round.number,
-                    "rule_id": next_rule.number,
+                    "round_number": self.round.number,
+                    "rule_number": next_rule.number,
                 },
             )
         return reverse(
