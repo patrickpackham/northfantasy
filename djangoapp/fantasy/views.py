@@ -77,7 +77,7 @@ class PlayerPositionsView(AdminCheckMixin, ContextMixin, TemplateView):
 
     def get_success_url(self):
         kwargs = self.kwargs
-        kwargs["round_number"] = 1
+        kwargs["round_number"] = self.round.number
         kwargs["rule_number"] = 1
         return reverse("add_points", kwargs=kwargs)
 
