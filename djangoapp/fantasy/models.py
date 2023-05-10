@@ -102,7 +102,7 @@ class PlayerPoints(models.Model):
 
         if self.round and self.player and self.rule:
             position = PlayerRoundPosition.objects.get_or_create(
-                defaults={"position": player.default_position},
+                defaults={"position": self.player.default_position},
                 player=self.player, round=self.round
             )[0].position
             if position == "Keeper":
