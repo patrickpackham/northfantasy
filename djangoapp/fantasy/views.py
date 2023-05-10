@@ -174,7 +174,7 @@ class PlayerPointsView(AdminCheckMixin, ContextMixin, TemplateView):
                 kwargs={
                     "league_name": self.league.name,
                     "round_id": self.round.number,
-                    "rule_id": next_rule.id,
+                    "rule_id": next_rule.number,
                 },
             )
         return reverse(

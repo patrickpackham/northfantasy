@@ -28,7 +28,11 @@
                                     <a href="{% url 'round_detail' league.name round.number %}">Round {{ round.number }}</a>
                                 </td>
                                 <td>
+                                    {% if round.played %}
                                     <i class="bi bi-check text-success display-6"></i>
+                                    {% else %}
+                                    <i class="bi bi-x text-danger display-6"></i>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}

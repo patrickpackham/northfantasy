@@ -11,7 +11,7 @@
     {% endif %}
     <div class="{% if not messages %}mt-4{% endif %} mb-4 m-2 d-flex text-centre">
         <div class="w-50 d-flex justify-content-start mr-15p">
-            <h5>Round 1 Scores</h5>
+            <h5>Round {{ round.number }} Scores</h5>
         </div>
         {% if league.admin == request.user %}
         <div class="w-50 d-flex justify-content-end ml-15p">
