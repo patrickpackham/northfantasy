@@ -31,10 +31,10 @@ class BasePlayerPositionFormSet(BaseModelFormSet):
                 player=player,
                 round=round,
             )
+        super(BasePlayerPositionFormSet, self).__init__(*args, **kwargs)
         self.queryset = PlayerRoundPosition.objects.filter(
             player__in=players, round=round
         )
-        super(BasePlayerPositionFormSet, self).__init__(*args, **kwargs)
         for form in self.forms:
             form.fields["player"].widget.attrs.update({"class": "form-control"})
             form.fields["position"].widget.attrs.update({"class": "form-control"})
