@@ -23,9 +23,9 @@ class LeagueRule(admin.ModelAdmin):
 
 @admin.register(PlayerPoints)
 class PlayerPointsAdmin(admin.ModelAdmin):
-    list_display = ['id', 'rule__title', 'player__name', 'round__number', 'points']
+    list_display = ['id', 'rule', 'player', 'round', 'points']
 
 
 @admin.register(PlayerRoundPosition)
 class PlayerRoundPosition(admin.ModelAdmin):
-    list_display = ['id', 'player__name', 'round__number', 'position']
+    list_display = ['id', 'player', 'round', 'position']
