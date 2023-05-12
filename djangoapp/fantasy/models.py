@@ -35,7 +35,7 @@ class Player(models.Model):
         return points if points else 0
 
     def goals(self, round=None):
-        goal_points = self.playerpoints_set.filter(rule__title__icontains="goals")
+        goal_points = self.playerpoints_set.filter(rule__title__icontains="scored a goal")
         if round:
             goal_points = goal_points.filter(round=round)
         return goal_points.count()
