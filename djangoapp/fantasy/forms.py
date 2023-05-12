@@ -68,9 +68,10 @@ class BasePlayerPointsFormSet(BaseModelFormSet):
 
     def __init__(self, *args, **kwargs):
         rule = kwargs.pop("rule")
+        round = kwargs.pop("round")
         self.empty_initial = kwargs.pop("empty_initial")
         super(BasePlayerPointsFormSet, self).__init__(*args, **kwargs)
-        self.queryset = PlayerPoints.objects.filter(rule=rule)
+        self.queryset = PlayerPoints.objects.filter(rule=rule, round=round)
         for form in self.forms:
             form.fields["player"].widget.attrs.update({"class": "form-control mt-3"})
             form.empty_permitted = True

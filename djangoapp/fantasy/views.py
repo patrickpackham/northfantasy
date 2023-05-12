@@ -57,6 +57,14 @@ class RoundDetail(ContextMixin, ListView):
         context = super(RoundDetail, self).get_context_data(**kwargs)
         context["league"] = self.league
         context["round"] = self.round
+        context["players"] = []
+        for player in context['object_list']:
+            context["players"].append({
+                "name": player.name,
+                "points": player.points(round=self.round),
+                "goals": player.goals(round=self.round),
+                "assists": player.assists(round=self.round)
+            })
         return context
     
     
@@ -95,16 +103,17 @@ class EnterScoreView(AdminCheckMixin, ContextMixin, FormView):
                 'Midfield': cleansheet_rule.midfield_points,
             }
             for player in players:
-                round_position = PlayerRoundPosition.objects.get_or_create(
-                    defaults={'position': player.default_position},
-                    player=player, round=self.round)[0].position
-                if round_position in ['Keeper', 'Defender', 'Midfield']:
-                    PlayerPoints.objects.get_or_create(
-                        defaults={'points': position_point_map[round_position]},
-                        player=player,
-                        round=self.round,
-                        rule=cleansheet_rule
-                    )
+                if player.playerpoints_set.filter(round=self.round, rule__title='played at least 2 minutes'):
+                    round_position = PlayerRoundPosition.objects.get_or_create(
+                        defaults={'position': player.default_position},
+                        player=player, round=self.round)[0].position
+                    if round_position in ['Keeper', 'Defender', 'Midfield']:
+                        PlayerPoints.objects.get_or_create(
+                            defaults={'points': position_point_map[round_position]},
+                            player=player,
+                            round=self.round,
+                            rule=cleansheet_rule
+                        )
 
         # Determine if defensive players lose points for conceeding lots of goals.
         how_many_times_conceeded_2 = trunc(self.round.opponent_score / 2)
@@ -114,25 +123,23 @@ class EnterScoreView(AdminCheckMixin, ContextMixin, FormView):
                 'Defender': conceeded_two_rule.defender_points,
             }
             for player in players:
-                round_position = PlayerRoundPosition.objects.get_or_create(
-                    defaults={'position': player.default_position},
-                    player=player, round=self.round)[0].position
-                if round_position in ['Keeper', 'Defender']:
-                    import pdb;
-                    pdb.set_trace()
-                    points = position_point_map[round_position] * how_many_times_conceeded_2
-                    p, created = PlayerPoints.objects.get_or_create(
-                        defaults={'points': points},
-                        player=player,
-                        round=self.round,
-                        rule=conceeded_two_rule
-                    )
-                    print(created)
-                    print(p.points)
+                if player.playerpoints_set.filter(round=self.round, rule__title='played at least 2 minutes'):
+                    round_position = PlayerRoundPosition.objects.get_or_create(
+                        defaults={'position': player.default_position},
+                        player=player, round=self.round)[0].position
+                    if round_position in ['Keeper', 'Defender']:
+                        points = position_point_map[round_position] * how_many_times_conceeded_2
+                        PlayerPoints.objects.get_or_create(
+                            defaults={'points': points},
+                            player=player,
+                            round=self.round,
+                            rule=conceeded_two_rule
+                        )
+        messages.success(self.request, "Scores successfully updated!")
         return super(EnterScoreView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse("add_positions", kwargs=self.kwargs)
+        return reverse('round_detail', kwargs=self.kwargs)
 
 
 class PlayerPositionsView(AdminCheckMixin, ContextMixin, TemplateView):
@@ -191,12 +198,13 @@ class PlayerPointsView(AdminCheckMixin, ContextMixin, TemplateView):
             formset = self.get_formset_class(extra=self.rule.required_extra_forms)(
                 data=self.request.POST,
                 rule=self.rule,
+                round=self.round,
                 form_kwargs=kwargs,
                 empty_initial=initial,
             )
         else:
             formset = self.get_formset_class(extra=self.rule.required_extra_forms)(
-                rule=self.rule, form_kwargs=kwargs, empty_initial=initial
+                rule=self.rule, round=self.round, form_kwargs=kwargs, empty_initial=initial
             )
             # Only set initial if there is no instance, so we don't override record data
             for form in formset:
@@ -257,8 +265,7 @@ class PlayerPointsView(AdminCheckMixin, ContextMixin, TemplateView):
                     "rule_number": next_rule.number,
                 },
             )
-        messages.success(self.request, "Scores successfully updated!")
         return reverse(
-            "round_detail",
+            "enter_score",
             kwargs={"league_name": self.league.name, "round_number": self.round.number},
         )
