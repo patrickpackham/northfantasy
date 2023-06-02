@@ -78,9 +78,16 @@ class EnterScoreView(AdminCheckMixin, ContextMixin, FormView):
         context["round"] = self.round
         return context
 
+    def get_initial(self):
+        initial = super(EnterScoreView, self).get_initial()
+        initial['our_score'] = self.round.our_score
+        initial['opponent_score'] = self.round.opposition_score
+        return initial
+
     def form_valid(self, form):
         self.round.our_score = int(form.cleaned_data.get('our_score'))
-        self.round.opponent_score = int(form.cleaned_data.get('opponent_score'))
+        self.round.opposition_score = int(form.cleaned_data.get('opponent_score'))
+        self.round.played = True
         self.round.save()
         cleansheet_rule = LeagueRule.objects.get(league=self.league,
                                                  title='kept a cleansheet')
@@ -96,7 +103,7 @@ class EnterScoreView(AdminCheckMixin, ContextMixin, FormView):
         ).delete()
 
         # Determine if defensive players get points for keeping a clean sheet.
-        if self.round.opponent_score == 0:
+        if self.round.opposition_score == 0:
             position_point_map = {
                 'Keeper': cleansheet_rule.keeper_points,
                 'Defender': cleansheet_rule.defender_points,
@@ -116,7 +123,7 @@ class EnterScoreView(AdminCheckMixin, ContextMixin, FormView):
                         )
 
         # Determine if defensive players lose points for conceeding lots of goals.
-        how_many_times_conceeded_2 = trunc(self.round.opponent_score / 2)
+        how_many_times_conceeded_2 = trunc(self.round.opposition_score / 2)
         if how_many_times_conceeded_2 > 1:
             position_point_map = {
                 'Keeper': conceeded_two_rule.keeper_points,
@@ -194,8 +201,13 @@ class PlayerPointsView(AdminCheckMixin, ContextMixin, TemplateView):
 
         # See the get_formset_class docstring for how
         # to customize the formset on a per-view basis
+        if not self.rule.autofill:
+            extra = self.rule.required_extra_forms
+        else:
+            extra = 0
+
         if self.request.method == "POST":
-            formset = self.get_formset_class(extra=self.rule.required_extra_forms)(
+            formset = self.get_formset_class(extra=extra)(
                 data=self.request.POST,
                 rule=self.rule,
                 round=self.round,
@@ -203,7 +215,7 @@ class PlayerPointsView(AdminCheckMixin, ContextMixin, TemplateView):
                 empty_initial=initial,
             )
         else:
-            formset = self.get_formset_class(extra=self.rule.required_extra_forms)(
+            formset = self.get_formset_class(extra=extra)(
                 rule=self.rule, round=self.round, form_kwargs=kwargs, empty_initial=initial
             )
             # Only set initial if there is no instance, so we don't override record data

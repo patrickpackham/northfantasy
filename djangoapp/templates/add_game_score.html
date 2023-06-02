@@ -13,9 +13,9 @@
                     <form method="post">
                         {% csrf_token %}
                         <label for="id_our_score">Our Score:</label><br>
-                        <input type="number" name="our_score" class="w-100 form-control" required="" id="id_our_score">
+                        <input type="number" name="our_score" class="w-100 form-control" required="" id="id_our_score" value="{{ form.our_score.value }}">
                         <label class="mt-3" for="id_opponent_score">Opponent Score:</label><br>
-                        <input type="number" name="opponent_score" class="w-100 form-control" required="" id="id_opponent_score">
+                        <input type="number" name="opponent_score" class="w-100 form-control" required="" id="id_opponent_score" value="{{ form.opponent_score.value }}">
                         <input type="submit"
                                 class="w-100 btn btn-danger mt-3"
                                 value="Next">

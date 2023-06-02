@@ -68,6 +68,7 @@ class LeagueRule(models.Model):
     keeper_points = models.IntegerField()
     initial_forms = models.IntegerField()
     calculated_from_score = models.BooleanField(default=False)
+    autofill = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
